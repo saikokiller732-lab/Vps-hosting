@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["python311", "python312", "python313", "nodejs_20", "gcc", "bash"]
+nixPkgs = ["python312", "nodejs_20", "gcc", "bash"]
 
 [phases.install]
 cmds = ["pip install --no-cache-dir -r requirements.txt"]
