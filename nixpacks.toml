@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["python311", "python312", "python313", "nodejs_20", "gcc", "bash"]
+
+[phases.install]
+cmds = ["pip install --no-cache-dir -r requirements.txt"]
+
+[phases.start]
+cmd = "gunicorn -w 1 --threads 8 -b 0.0.0.0:$PORT app:app"
+
+[phases.postInstall]
+cmds = ["mkdir -p /app/data /app/user_files"]
