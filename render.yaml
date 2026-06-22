@@ -1,0 +1,26 @@
+# Exported from Render on 2026-06-22T20:51:53Z
+version: "1"
+projects:
+- name: HasibCloudVps
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: HasibCloudVps
+      runtime: python
+      repo: https://github.com/saikokiller732-lab/Vps-hosting
+      plan: free
+      envVars:
+      - key: hasib.txt
+        sync: false
+      - key: Hasib
+        sync: false
+      - key: Vps
+        sync: false
+      region: virginia
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn app:app
+      healthCheckPath: /healthz
+      autoDeployTrigger: commit
+      previews:
+        generation: automatic
