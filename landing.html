@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="wrap" style="padding:0;max-width:100%">
+
+<section style="text-align:center;padding:80px 20px 60px;background:radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.08) 0%, transparent 60%)">
+  <div class="badge badge-success float" style="margin-bottom:18px;font-size:12px;padding:6px 24px;background:rgba(52,211,153,0.12);color:#6ee7b7;border:1px solid rgba(52,211,153,0.2);border-radius:99px;display:inline-block">
+    <i class="fas fa-rocket" style="margin-right:6px"></i> HASIB CloudVPS Python Bot Hosting
+  </div>
+  <h1 style="font-size:clamp(38px,7vw,62px);font-weight:900;line-height:1.1;margin-bottom:14px;letter-spacing:-1px">
+    Host Your Python Bot<br>
+    <span class="gradient-text">for Free</span>
+  </h1>
+  <p style="font-size:clamp(16px,1.6vw,19px);color:var(--text-secondary);max-width:520px;margin:0 auto 28px;line-height:1.8">
+    Just click "Start Free" and upload your bot.
+    real-time logs, 24/7 uptime.
+  </p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+    <a href="/trial/start" class="btn btn-success" style="padding:14px 38px;font-size:15px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);color:#fff;font-weight:600;box-shadow:0 4px 20px rgba(52,211,153,0.3);transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+      <i class="fas fa-play"></i> Start Free Now
+    </a>
+    <a href="#pricing" class="btn btn-secondary" style="padding:14px 38px;font-size:15px;border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text-primary);border:1px solid var(--border);font-weight:600;transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+      <i class="fas fa-tag"></i> View Plans
+    </a>
+  </div>
+</section>
+
+<section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:18px;padding:10px 20px 50px;max-width:750px;margin:0 auto">
+  <div class="glass-card text-center" style="padding:22px 16px;border:1px solid rgba(99,102,241,0.06);border-radius:14px;background:rgba(13,18,48,0.4)">
+    <div style="font-size:clamp(28px,3vw,34px);font-weight:900;color:var(--primary)">24/7</div>
+    <div class="text-muted" style="font-size:13px;margin-top:4px">Uptime Guarantee</div>
+  </div>
+  <div class="glass-card text-center" style="padding:22px 16px;border:1px solid rgba(99,102,241,0.06);border-radius:14px;background:rgba(13,18,48,0.4)">
+    <div style="font-size:clamp(28px,3vw,34px);font-weight:900;color:var(--success)">99.9%</div>
+    <div class="text-muted" style="font-size:13px;margin-top:4px">Reliability</div>
+  </div>
+  <div class="glass-card text-center" style="padding:22px 16px;border:1px solid rgba(99,102,241,0.06);border-radius:14px;background:rgba(13,18,48,0.4)">
+    <div style="font-size:clamp(28px,3vw,34px);font-weight:900;color:var(--accent)">24h</div>
+    <div class="text-muted" style="font-size:13px;margin-top:4px">Free Trial</div>
+  </div>
+  <div class="glass-card text-center" style="padding:22px 16px;border:1px solid rgba(99,102,241,0.06);border-radius:14px;background:rgba(13,18,48,0.4)">
+    <div style="font-size:clamp(28px,3vw,34px);font-weight:900;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent">{{ pricing.plans|length if pricing else 0 }}</div>
+    <div class="text-muted" style="font-size:13px;margin-top:4px">Available Plans</div>
+  </div>
+</section>
+
+<section style="padding:30px 20px 50px;max-width:1100px;margin:0 auto">
+  <div style="text-align:center;margin-bottom:44px">
+    <span class="badge badge-success" style="background:var(--gradient);color:#fff;border:none;padding:6px 24px;font-size:11px;letter-spacing:0.5px;border-radius:99px;display:inline-block;margin-bottom:12px">FEATURES</span>
+    <h2 style="font-size:clamp(28px,4vw,36px);font-weight:900;margin-bottom:6px;line-height:1.2">
+      Everything You Need to<br>
+      <span class="gradient-text">Run Your Python Bot</span>
+    </h2>
+    <p class="text-muted" style="font-size:15px;max-width:500px;margin:6px auto 0">Enterprise-grade features for HasibCloudVps bot hosting</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px">
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(139,92,246,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(99,102,241,0.06)">
+        <i class="fas fa-bolt" style="color:#818cf8"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">Instant Deployment</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Upload and run with one click</p>
+    </div>
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(52,211,153,0.12),rgba(16,185,129,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(52,211,153,0.06)">
+        <i class="fas fa-box" style="color:#34d399"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">Auto Package Install</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">requirements.txt auto-installed</p>
+    </div>
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(34,211,238,0.12),rgba(6,182,212,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(34,211,238,0.06)">
+        <i class="fas fa-terminal" style="color:#22d3ee"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">Real-Time Logs</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Live output streaming</p>
+    </div>
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(217,119,6,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(245,158,11,0.06)">
+        <i class="fas fa-sync-alt" style="color:#f59e0b"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">Auto Restart</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Self-healing infrastructure</p>
+    </div>
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(236,72,153,0.12),rgba(244,114,182,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(236,72,153,0.06)">
+        <i class="fas fa-shield-alt" style="color:#ec4899"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">Secure Isolation</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">SSL encrypted environments</p>
+    </div>
+    <div class="card" style="padding:26px 20px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;background:rgba(13,18,48,0.4);border-radius:14px">
+      <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(139,92,246,0.12),rgba(99,102,241,0.12));display:inline-grid;place-items:center;font-size:22px;margin-bottom:12px;border:1px solid rgba(139,92,246,0.06)">
+        <i class="fas fa-headset" style="color:#a78bfa"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--text-primary)">24/7 Expert Support</h3>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.6">Dedicated support team</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding:30px 20px 50px;max-width:1200px;margin:0 auto" id="pricing">
+  <div style="text-align:center;margin-bottom:44px">
+    <span class="badge badge-success" style="background:var(--gradient);color:#fff;border:none;padding:6px 24px;font-size:11px;letter-spacing:0.5px;border-radius:99px;display:inline-block;margin-bottom:12px">PRICING</span>
+    <h2 style="font-size:clamp(28px,4vw,36px);font-weight:900;margin-bottom:6px;line-height:1.2">
+      Choose Your <span class="gradient-text">Perfect Plan</span>
+    </h2>
+    <p class="text-muted" style="font-size:15px;max-width:500px;margin:6px auto 0">Start with 24h free trial, upgrade when you need more</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px">
+    {% for p in pricing.plans %}
+    <div class="card text-center {% if p.popular %}pulse-glow{% endif %}" style="padding:30px 22px;border-radius:16px;{% if p.popular %}border:2px solid var(--primary);{% endif %}">
+      {% if p.badge %}
+      <span class="badge badge-success" style="background:var(--gradient);color:#fff;border:none;margin-bottom:12px;font-size:10px;padding:4px 16px;border-radius:99px;display:inline-block">{{ p.badge }}</span>
+      {% endif %}
+      <h3 style="font-size:22px;font-weight:800;margin-bottom:2px">{{ p.name }}</h3>
+      <div class="text-muted" style="font-size:13px;margin-bottom:12px">{{ p.duration }}</div>
+      <div style="font-size:clamp(40px,5vw,50px);font-weight:900;margin:12px 0;background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent">
+        {{ pricing.currency }}{{ p.price }}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:14px 0;padding:12px;background:rgba(0,0,0,0.15);border-radius:10px">
+        <div style="font-size:12px;color:var(--text-secondary);text-align:center">
+          <i class="fas fa-microchip" style="color:var(--primary);font-size:14px;display:block;margin-bottom:3px"></i>
+          {{ p.cpu }}
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);text-align:center">
+          <i class="fas fa-memory" style="color:var(--secondary);font-size:14px;display:block;margin-bottom:3px"></i>
+          {{ p.ram }}
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);text-align:center">
+          <i class="fas fa-hdd" style="color:var(--accent);font-size:14px;display:block;margin-bottom:3px"></i>
+          {{ p.storage }}
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);text-align:center">
+          <i class="fab fa-python" style="color:#a78bfa;font-size:14px;display:block;margin-bottom:3px"></i>
+          Python {{ p.python_version }}
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--text-secondary);min-height:36px;line-height:1.7;margin:10px 0">
+        {{ p.features }}
+      </div>
+      {% if p.name == "Free Trial" %}
+      <a href="/trial/start" class="btn btn-success" style="margin-top:14px;width:100%;justify-content:center;font-size:14px;padding:14px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:all 0.3s ease;border:none;cursor:pointer">
+        <i class="fas fa-play"></i> Start Free Trial
+      </a>
+      {% else %}
+      <a href="/login" class="btn btn-primary" style="margin-top:14px;width:100%;justify-content:center;font-size:14px;padding:14px;border-radius:10px;background:var(--gradient);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px;text-decoration:none;transition:all 0.3s ease;border:none;cursor:pointer">
+        <i class="fas fa-shopping-cart"></i> Get Plan
+      </a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section style="padding:40px 20px 60px;text-align:center;max-width:680px;margin:0 auto">
+  <div class="glass-card" style="padding:44px 36px;border-radius:16px;border:1px solid rgba(99,102,241,0.1);background:rgba(13,18,48,0.3)">
+    <div style="font-size:44px;margin-bottom:14px">🚀</div>
+    <h2 style="font-size:clamp(24px,3vw,32px);font-weight:900;margin-bottom:10px;line-height:1.2">
+      Ready to Deploy Your <span class="gradient-text">Next Bot</span>?
+    </h2>
+    <p style="color:var(--text-secondary);font-size:15px;margin-bottom:22px;line-height:1.7">
+      Start your 24-hour free trial instantly and deploy your Python bot.
+    </p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="/trial/start" class="btn btn-success" style="padding:14px 38px;font-size:15px;border-radius:10px;background:linear-gradient(135deg,#34d399,#059669);color:#fff;font-weight:600;box-shadow:0 4px 20px rgba(52,211,153,0.3);transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+        <i class="fas fa-play"></i> Start Free Trial
+      </a>
+      <a href="#pricing" class="btn btn-secondary" style="padding:14px 38px;font-size:15px;border-radius:10px;background:rgba(255,255,255,0.05);color:var(--text-primary);border:1px solid var(--border);font-weight:600;transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+        <i class="fas fa-tag"></i> View Plans
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
+{% endblock %}

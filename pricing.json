@@ -1,0 +1,61 @@
+{
+  "currency": "BDT",
+  "contact": "Telegram: @bouchor",
+  "admin_name": "Hasib Hossen",
+  "admin_telegram": "@bouchor",
+  "admin_email": "hasibhossentech@gmail.com",
+  "plans": [
+    {
+      "name": "Free Trial",
+      "duration": "24 Hours",
+      "price": "0",
+      "badge": "FREE",
+      "popular": false,
+      "ram": "256MB",
+      "cpu": "0.5 vCPU",
+      "storage": "500MB",
+      "bots": 1,
+      "python_version": "3.11",
+      "features": "1 Python bot, Basic logs, No signup, 24h free"
+    },
+    {
+      "name": "Standard",
+      "duration": "7 Days",
+      "price": "50",
+      "badge": "",
+      "popular": false,
+      "ram": "512MB",
+      "cpu": "1 vCPU",
+      "storage": "5GB",
+      "bots": 3,
+      "python_version": "3.11",
+      "features": "3 Python bots, Real-time logs, pip install, Auto-restart"
+    },
+    {
+      "name": "Pro",
+      "duration": "30 Days",
+      "price": "299",
+      "badge": "POPULAR",
+      "popular": true,
+      "ram": "10GB",
+      "cpu": "2 vCPU",
+      "storage": "50GB",
+      "bots": 10,
+      "python_version": "3.12",
+      "features": "10 Python bots, Priority support, Custom domains, 24/7 uptime"
+    },
+    {
+      "name": "Premium",
+      "duration": "Lifetime",
+      "price": "499",
+      "badge": "BEST VALUE",
+      "popular": false,
+      "ram": "12GB",
+      "cpu": "4 vCPU",
+      "storage": "100GB",
+      "bots": 999,
+      "python_version": "3.12",
+      "features": "Unlimited bots, Dedicated help, 24/7 support, All features"
+    }
+  ]
+}

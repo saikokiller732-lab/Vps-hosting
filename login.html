@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block body %}
+<div style="min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;padding:30px 16px">
+  <div class="card animate-in" style="max-width:400px;width:100%;padding:40px;border-radius:16px">
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="width:64px;height:64px;border-radius:18px;background:var(--gradient);display:inline-grid;place-items:center;font-size:26px;box-shadow:0 8px 32px rgba(99,102,241,0.3);margin-bottom:14px">
+        <i class="fas fa-lock" style="color:#fff"></i>
+      </div>
+      <h2 style="font-size:26px;font-weight:800;margin-bottom:4px">Welcome Back</h2>
+      <p class="text-muted" style="font-size:14px">Sign in to your HASIB CloudVPS account</p>
+    </div>
+    {% if error %}
+    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:10px 14px;margin-bottom:18px;color:#fca5a5;font-size:13px;display:flex;align-items:center;gap:8px">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+    {% endif %}
+    <form method="POST">
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-weight:600;font-size:12px;color:var(--text-secondary);margin-bottom:4px">Username</label>
+        <input type="text" name="username" placeholder="Enter username" required autofocus style="font-size:14px;padding:12px 14px;border-radius:10px">
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-weight:600;font-size:12px;color:var(--text-secondary);margin-bottom:4px">Password</label>
+        <input type="password" name="password" placeholder="Enter password" required style="font-size:14px;padding:12px 14px;border-radius:10px">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:15px;border-radius:10px;background:var(--gradient);color:#fff;font-weight:600;border:none;cursor:pointer;transition:all 0.3s ease">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+    </form>
+    <div style="text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+      <p class="text-muted" style="font-size:12px">
+        Need an account? <a href="https://t.me/bouchor" target="_blank" style="color:var(--primary);font-weight:600">Contact Admin</a>
+      </p>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:6px">
+        <a href="/trial/start" style="color:var(--success);font-weight:600">Start Free Trial</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

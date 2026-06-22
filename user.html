@@ -1,0 +1,540 @@
+{% extends "base.html" %}
+{% block title %}{% if is_trial %}Free Trial{% else %}{{ username }}{% endif %} Dashboard{% endblock %}
+{% block head %}
+<style>
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:860px){.dashboard-grid{grid-template-columns:1fr}}
+.bot-card{
+  background:rgba(0,0,0,0.25);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:14px;
+  transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+  animation:slideIn 0.5s ease forwards
+}
+.bot-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(99,102,241,0.08)
+}
+.bot-card .bot-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px
+}
+.bot-card .bot-name{font-weight:700;font-size:15px;color:var(--text-primary)}
+.bot-card .bot-name i{color:var(--primary)}
+.bot-card .bot-status{display:flex;align-items:center;gap:8px;font-size:12px}
+.bot-card .bot-files{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
+.bot-card .bot-files span{
+  padding:2px 10px;
+  background:rgba(99,102,241,0.08);
+  border-radius:4px;
+  font-size:10px;
+  color:var(--text-secondary)
+}
+.bot-card .bot-actions{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.bot-card .bot-actions form{display:inline}
+.bot-card .upload-area{
+  border:1px dashed var(--border);
+  border-radius:8px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  margin-top:10px
+}
+.bot-card .upload-area:hover{
+  border-color:var(--primary);
+  background:rgba(99,102,241,0.04)
+}
+.bot-card .upload-area p{font-size:12px;color:var(--text-secondary)}
+.status-dot{width:10px;height:10px;border-radius:50%;display:inline-block;transition:all 0.3s ease}
+.status-dot.running{
+  background:#34d399;
+  box-shadow:0 0 20px rgba(52,211,153,0.5);
+  animation:pulse 1.5s ease-in-out infinite
+}
+.status-dot.stopped{
+  background:#f87171;
+  box-shadow:0 0 12px rgba(248,113,113,0.2)
+}
+.log-container{
+  background:#000;
+  border-radius:8px;
+  padding:14px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#6ee7b7;
+  height:340px;
+  overflow:auto;
+  white-space:pre-wrap;
+  border:1px solid var(--border);
+  line-height:1.7
+}
+.log-container .log-line{color:var(--text-secondary)}
+.log-container .log-line.error{color:#f87171}
+.log-container .log-line.success{color:#34d399}
+.log-container .log-line.info{color:#22d3ee}
+.resource-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:8px
+}
+@media(max-width:600px){.resource-grid{grid-template-columns:1fr 1fr}}
+.resource-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  background:rgba(0,0,0,0.2);
+  border-radius:8px;
+  font-size:12px;
+  color:var(--text-secondary)
+}
+.resource-item i{font-size:14px;width:20px}
+.resource-item .label{font-size:10px;color:var(--text-muted)}
+.plan-badge{
+  display:inline-block;
+  padding:4px 16px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+  background:var(--gradient);
+  color:#fff;
+  border:none
+}
+.free-badge{
+  display:inline-block;
+  padding:4px 16px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+  background:var(--success);
+  color:#fff;
+  border:none
+}
+.create-bot-btn{
+  width:100%;
+  padding:14px;
+  border:2px dashed var(--border);
+  border-radius:10px;
+  background:transparent;
+  color:var(--text-secondary);
+  cursor:pointer;
+  transition:all 0.3s ease;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px
+}
+.create-bot-btn:hover{
+  border-color:var(--primary);
+  color:var(--text-primary);
+  background:rgba(99,102,241,0.05)
+}
+.bot-logs-container{
+  height:120px;
+  overflow:auto;
+  background:#000;
+  border-radius:6px;
+  padding:10px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:#6ee7b7;
+  border:1px solid var(--border);
+  margin-top:8px
+}
+.runtime-badge{
+  font-size:10px;
+  color:var(--text-muted);
+  background:rgba(255,255,255,0.05);
+  padding:2px 10px;
+  border-radius:10px;
+  margin-left:4px
+}
+.free-user-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 16px;
+  background:rgba(52,211,153,0.1);
+  border:1px solid rgba(52,211,153,0.2);
+  border-radius:8px;
+  margin-bottom:16px
+}
+.free-user-header i{color:var(--success);font-size:18px}
+.free-user-header .text{font-size:13px;color:var(--text-secondary)}
+.free-user-header .text strong{color:var(--text-primary)}
+.running-text{color:#34d399;font-weight:600}
+.stopped-text{color:#f87171;font-weight:600}
+</style>
+{% endblock %}
+{% block body %}
+<div class="wrap" style="padding:24px 16px">
+  
+  {% if is_trial %}
+  <div class="free-user-header">
+    <i class="fas fa-clock"></i>
+    <div class="text">
+      <strong>Free Trial</strong> — 24 hours free. 
+      {% if expires_at %}
+      Expires in <strong>{{ ((expires_at - now) / 3600)|round(1) }}h</strong>
+      {% endif %}
+      <a href="/pricing" style="color:var(--primary)">Upgrade</a> for more bots.
+    </div>
+  </div>
+  {% endif %}
+
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:48px;height:48px;border-radius:14px;background:var(--gradient);display:grid;place-items:center;font-size:20px;box-shadow:0 6px 24px rgba(99,102,241,0.25)">
+        <i class="fas fa-robot" style="color:#fff"></i>
+      </div>
+      <div>
+        <h1 style="font-size:clamp(22px,3vw,28px);font-weight:800;margin:0">
+          {% if is_trial %}Free Trial{% else %}{{ username }}{% endif %}
+        </h1>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          {% if is_trial %}
+          <span class="free-badge"><i class="fas fa-gift"></i> Trial</span>
+          {% else %}
+          <span class="plan-badge">{{ plan.name if plan else 'Free Trial' }}</span>
+          {% endif %}
+          <span style="font-size:12px;color:var(--text-secondary)">
+            <i class="fas fa-robot"></i> {{ bots|length }} / {{ max_bots }} Bots
+          </span>
+          <span style="font-size:12px;color:var(--text-secondary)">
+            <i class="fab fa-python"></i> Python {{ plan.python_version if plan else '3.11' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    {% if expires_at %}
+    <div class="glass-card" style="padding:8px 18px;text-align:center">
+      <div class="text-muted" style="font-size:10px;text-transform:uppercase;letter-spacing:0.3px">Expires In</div>
+      <div style="font-size:clamp(18px,2.2vw,24px);font-weight:800;color:{% if (expires_at - now) / 86400 < 3 %}var(--danger){% else %}var(--warning){% endif %}">
+        {{ ((expires_at - now) / 3600)|round(1) }}h
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="card" style="margin-bottom:20px;padding:16px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+      <span style="font-weight:700;font-size:14px">
+        <i class="fas fa-crown" style="color:var(--warning)"></i> {{ plan.name if plan else 'Free Trial' }} Plan Resources
+      </span>
+      <span style="font-size:12px;color:var(--text-muted)">
+        <i class="fas fa-clock"></i> {{ plan.duration if plan else 'Lifetime' }}
+      </span>
+    </div>
+    <div class="resource-grid">
+      <div class="resource-item">
+        <i class="fas fa-microchip" style="color:var(--primary)"></i>
+        <span><span class="label">CPU</span> {{ plan.cpu if plan else '0.5 vCPU' }}</span>
+      </div>
+      <div class="resource-item">
+        <i class="fas fa-memory" style="color:var(--secondary)"></i>
+        <span><span class="label">RAM</span> {{ plan.ram if plan else '256MB' }}</span>
+      </div>
+      <div class="resource-item">
+        <i class="fas fa-hdd" style="color:var(--accent)"></i>
+        <span><span class="label">Storage</span> {{ plan.storage if plan else '500MB' }}</span>
+      </div>
+      <div class="resource-item">
+        <i class="fas fa-robot" style="color:var(--success)"></i>
+        <span><span class="label">Bots</span> {{ plan.bots if plan else 1 }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div>
+      <div class="card" style="margin-bottom:18px;padding:16px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:12px">
+          <i class="fas fa-plus-circle" style="color:var(--success)"></i> Create New Bot
+        </h2>
+        {% if can_create %}
+        <button class="create-bot-btn" onclick="createBot()">
+          <i class="fas fa-plus"></i> Create New Bot
+        </button>
+        {% else %}
+        <div style="padding:14px;text-align:center;background:rgba(248,113,113,0.1);border-radius:8px;border:1px solid rgba(248,113,113,0.2)">
+          <p style="color:var(--danger);font-size:13px">
+            <i class="fas fa-exclamation-circle"></i> Bot limit reached ({{ max_bots }}). 
+            <a href="/pricing" style="color:var(--primary)">Upgrade</a> for more bots.
+          </p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="card" style="padding:16px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:12px">
+          <i class="fas fa-list" style="color:var(--primary)"></i> Your Bots <span class="text-muted" style="font-weight:400;font-size:12px">({{ bots|length }})</span>
+        </h2>
+        {% if not bots %}
+        <p class="text-muted" style="text-align:center;padding:20px 0;font-size:13px">No bots created yet. Click "Create New Bot" to start.</p>
+        {% else %}
+        {% for bot in bots %}
+        <div class="bot-card" id="bot-card-{{ bot.id }}">
+          <div class="bot-header">
+            <span class="bot-name"><i class="fas fa-robot"></i> {{ bot.name }}</span>
+            <div class="bot-status">
+              <span class="status-dot stopped" id="status-dot-{{ bot.id }}"></span>
+              <span id="status-text-{{ bot.id }}" style="font-size:11px;color:var(--text-secondary)">Stopped</span>
+              <span class="runtime-badge" id="runtime-{{ bot.id }}">⏱️ 0s</span>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">
+            ID: {{ bot.id }} | Created: {{ bot.created_at|timestamp }}
+          </div>
+          <div class="bot-files">
+            {% for f in bot.files %}
+            <span>{{ f }}</span>
+            {% else %}
+            <span style="color:var(--text-muted)">No files uploaded</span>
+            {% endfor %}
+          </div>
+          <div class="bot-actions">
+            <button class="btn btn-success btn-sm" onclick="startBot('{{ bot.id }}')"><i class="fas fa-play"></i> Start</button>
+            <button class="btn btn-danger btn-sm" onclick="stopBot('{{ bot.id }}')"><i class="fas fa-stop"></i> Stop</button>
+            <button class="btn btn-warning btn-sm" onclick="restartBot('{{ bot.id }}')"><i class="fas fa-sync"></i> Restart</button>
+            <button class="btn btn-secondary btn-sm" onclick="clearBot('{{ bot.id }}')"><i class="fas fa-trash"></i> Clear</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteBot('{{ bot.id }}')"><i class="fas fa-times"></i> Delete</button>
+          </div>
+          <form method="post" action="/bot/upload/{{ bot.id }}" enctype="multipart/form-data">
+            <div class="upload-area" onclick="document.getElementById('fileInput-{{ bot.id }}').click()">
+              <i class="fas fa-cloud-upload-alt" style="font-size:18px;color:var(--text-muted)"></i>
+              <p>Click to upload files</p>
+              <p style="font-size:10px;color:var(--text-muted)">.py + requirements.txt</p>
+              <input type="file" id="fileInput-{{ bot.id }}" name="files" multiple style="display:none" onchange="this.form.submit()">
+            </div>
+          </form>
+          <div class="bot-logs-container" id="logs-{{ bot.id }}">
+            <div style="color:var(--text-muted)">Waiting for logs...</div>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:18px;padding:16px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:12px">
+          <i class="fas fa-box" style="color:var(--secondary)"></i> Package Install
+        </h2>
+        <p style="font-size:11px;color:var(--text-muted);margin-bottom:8px">
+          <i class="fas fa-check-circle" style="color:var(--success)"></i> Common modules pre-installed
+        </p>
+        <form class="row" onsubmit="return doInstall(event)" style="gap:8px">
+          <input id="installCmd" placeholder="pip install your-module" style="font-size:13px;padding:8px 12px" required>
+          <button class="btn btn-primary" style="padding:8px 16px;font-size:12px"><i class="fas fa-download"></i> Install</button>
+        </form>
+        <div id="installLogs" class="log-container" style="height:100px;margin-top:10px;font-size:10px">Ready to install...</div>
+      </div>
+
+      <div class="card" style="padding:16px">
+        <h2 style="font-size:16px;font-weight:700;margin-bottom:12px">
+          <i class="fas fa-terminal" style="color:var(--warning)"></i> Live Logs
+          <span class="text-muted" style="font-weight:400;font-size:10px;margin-left:6px"></span>
+        </h2>
+        <div id="globalLogs" class="log-container" style="height:340px">Waiting for output...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function post(url, body){
+  const r = await fetch(url, { method:'POST', body: body || new FormData() });
+  return r.json();
+}
+
+async function createBot(){
+  const r = await post('/bot/create');
+  if(r.ok){
+    location.reload();
+  } else {
+    alert('Error: ' + r.msg);
+  }
+}
+
+async function startBot(botId){
+  const r = await post('/bot/start/' + botId);
+  if(!r.ok){
+    alert('Error: ' + r.msg);
+    return;
+  }
+  updateBotStatus(botId);
+}
+
+async function stopBot(botId){
+  const r = await post('/bot/stop/' + botId);
+  if(!r.ok){
+    alert('Error: ' + r.msg);
+    return;
+  }
+  updateBotStatus(botId);
+}
+
+async function restartBot(botId){
+  const r = await post('/bot/restart/' + botId);
+  if(!r.ok){
+    alert('Error: ' + r.msg);
+    return;
+  }
+  updateBotStatus(botId);
+}
+
+async function clearBot(botId){
+  if(confirm('Clear the running process for this bot?')){
+    const r = await post('/bot/delete_process/' + botId);
+    if(!r.ok){
+      alert('Error: ' + r.msg);
+      return;
+    }
+    updateBotStatus(botId);
+  }
+}
+
+async function deleteBot(botId){
+  if(confirm('Delete this bot and all its files?')){
+    const r = await post('/bot/delete/' + botId);
+    if(!r.ok){
+      alert('Error: ' + r.msg);
+      return;
+    }
+    location.reload();
+  }
+}
+
+async function doInstall(e){
+  e.preventDefault();
+  const cmd = document.getElementById('installCmd').value.trim();
+  if(!cmd) return;
+  const fd = new FormData();
+  fd.append('command', cmd);
+  const r = await post('/install', fd);
+  if(!r.ok) alert(r.msg);
+  document.getElementById('installCmd').value = '';
+  return false;
+}
+
+function formatRuntime(seconds){
+  if(seconds < 60) return seconds + 's';
+  if(seconds < 3600) return Math.floor(seconds/60) + 'm ' + (seconds%60) + 's';
+  return Math.floor(seconds/3600) + 'h ' + Math.floor((seconds%3600)/60) + 'm';
+}
+
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function updateBotStatus(botId){
+  fetch('/bot/logs/' + botId)
+    .then(r => r.json())
+    .then(j => {
+      const dot = document.getElementById('status-dot-' + botId);
+      const text = document.getElementById('status-text-' + botId);
+      const runtime = document.getElementById('runtime-' + botId);
+      const logsDiv = document.getElementById('logs-' + botId);
+      
+      if(dot){
+        dot.className = 'status-dot ' + (j.running ? 'running' : 'stopped');
+      }
+      if(text){
+        text.textContent = j.running ? 'Running' : 'Stopped';
+        text.className = j.running ? 'running-text' : 'stopped-text';
+        text.style.fontSize = '11px';
+      }
+      if(runtime){
+        if(j.running && j.runtime){
+          runtime.textContent = '⏱️ ' + formatRuntime(j.runtime);
+          runtime.style.color = '#34d399';
+        } else {
+          runtime.textContent = '⏱️ 0s';
+          runtime.style.color = 'var(--text-muted)';
+        }
+      }
+      if(logsDiv && j.logs && j.logs.length){
+        const lastLogs = j.logs.slice(-10);
+        logsDiv.innerHTML = lastLogs.map(line => {
+          let cls = '';
+          if(line.includes('[error]') || line.includes('[install-error]')) cls = 'error';
+          else if(line.includes('[start]') || line.includes('success')) cls = 'success';
+          else if(line.includes('[install]') || line.includes('[exit]')) cls = 'info';
+          return `<div class="log-line ${cls}">${escapeHtml(line)}</div>`;
+        }).join('');
+        logsDiv.scrollTop = logsDiv.scrollHeight;
+      }
+    })
+    .catch(() => {});
+}
+
+function updateAllBots(){
+  const botCards = document.querySelectorAll('.bot-card');
+  for(const card of botCards){
+    const id = card.id.replace('bot-card-', '');
+    if(id){
+      updateBotStatus(id);
+    }
+  }
+}
+
+const logBox = document.getElementById('globalLogs');
+const instBox = document.getElementById('installLogs');
+
+function tick(){
+  fetch('/logs')
+    .then(r => r.json())
+    .then(j => {
+      if(j.logs && j.logs.length){
+        logBox.innerHTML = j.logs.map(line => {
+          let cls = '';
+          if(line.includes('[error]') || line.includes('[install-error]')) cls = 'error';
+          else if(line.includes('[start]') || line.includes('success')) cls = 'success';
+          else if(line.includes('[install]') || line.includes('[exit]')) cls = 'info';
+          return `<div class="log-line ${cls}">${escapeHtml(line)}</div>`;
+        }).join('');
+      } else {
+        logBox.innerHTML = '<div class="log-line" style="color:var(--text-muted)">Waiting for output...</div>';
+      }
+      logBox.scrollTop = logBox.scrollHeight;
+      
+      if(j.install && j.install.length){
+        instBox.innerHTML = j.install.map(line => {
+          let cls = '';
+          if(line.includes('[error]') || line.includes('[install-error]')) cls = 'error';
+          else if(line.includes('[install]') || line.includes('finished')) cls = 'info';
+          return `<div class="log-line ${cls}">${escapeHtml(line)}</div>`;
+        }).join('');
+      } else {
+        instBox.innerHTML = '<div class="log-line" style="color:var(--text-muted)">Ready to install...</div>';
+      }
+      instBox.scrollTop = instBox.scrollHeight;
+      
+      updateAllBots();
+    })
+    .catch(() => {});
+}
+
+setInterval(tick, 1000);
+tick();
+</script>
+{% endblock %}

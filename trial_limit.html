@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+<div style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 200px);padding:40px 20px">
+  <div class="card" style="max-width:480px;width:100%;padding:44px 36px;text-align:center;border-radius:16px">
+    <div style="font-size:64px;margin-bottom:16px"></div>
+    <h2 style="font-size:26px;font-weight:800;margin-bottom:8px">Trial Limit Reached</h2>
+    <p style="color:var(--text-secondary);font-size:15px;margin-bottom:20px;line-height:1.7">
+      {{ message or "You have already used the free trial on this device. Please purchase a plan to continue hosting your Python bot." }}
+    </p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+      <a href="/pricing" class="btn btn-primary" style="padding:12px 32px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;background:var(--gradient);color:#fff;transition:all 0.3s ease">
+        <i class="fas fa-tag"></i> View Plans
+      </a>
+      <a href="/" class="btn btn-secondary" style="padding:12px 32px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;background:rgba(255,255,255,0.05);color:var(--text-primary);border:1px solid var(--border);transition:all 0.3s ease">
+        <i class="fas fa-home"></i> Home
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
